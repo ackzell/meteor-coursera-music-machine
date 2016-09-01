@@ -22,12 +22,8 @@
 		</div>
 	</div>
 	<div class="row">
-	{{#each soundsArr}}
-		<div class="col-xs-12">
-			<label>Track {{@index}} - {{label}} 
-			   <input type="checkbox" id="{{name}}" name="check-{{name}}" checked="{{name}}">
-			</label>
-		</div>
+	{{#each sound in soundsArr}}
+		{{> track index=@index label=sound.name}}
 	{{/each}}
 	</div>
 	
