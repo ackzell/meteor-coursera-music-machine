@@ -69,7 +69,6 @@ if (Meteor.isClient) {
 
       var toggled = event.target.checked ? 1 : 0;
       Session.set(sound.name, toggled);
-      instance.state.set(sound.name, toggled);
 
       var val = MusicMachine.findOne();
 
@@ -112,10 +111,6 @@ if (Meteor.isClient) {
   };
 
   Template.playground.events(eventsObj);
-
-  Template.playground.onCreated(function bodyOnCreated() {
-    this.state = new ReactiveDict();
-  });
 
   Template.playground.onRendered(function() {
     $('h2').hide();

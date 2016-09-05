@@ -1,0 +1,16 @@
+body {
+	background: #070F07;
+	color: #53A548;
+}
+
+h1 {
+	color: #53A548;
+}
+
+.btn.btn-danger{
+	background: #A31621;
+}
+
+.btn.btn-success{
+	background: #19A854;
+}

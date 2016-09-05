@@ -19,11 +19,35 @@ sounds.forEach(function(sound, i) {
 		}
 
 	};
+
+	helpersObj['sliderB-' + sound.name] = function() {
+		var mm = MusicMachine.findOne();
+
+		if (mm) {
+			if (Template.instance().view.isRendered) {
+				Template.instance().$('#sliderB-' + sound.name).value(mm['slideB' + sound.name]);
+				sound.player.setAmplitude(mm['slideB' + sound.name]);
+				return mm['slideB' + sound.name];
+			}
+		}
+
+	};
 });
 
 Template.track.helpers(helpersObj);
 
 Template.track.onRendered(function() {
+
+	var el = this.$('.js-switch')[0];
+
+	var sw = new Switchery(el, { 
+		size: 'small',
+		color: '#53A548',
+		secondaryColor: '#19381F',
+		jackColor: '#070F07',
+		jackSecondaryColor: '#070F07'
+		
+	});
 
 	sounds.forEach(function(sound) {
 		
@@ -44,7 +68,17 @@ Template.track.onRendered(function() {
 			$('#sliderA-' + sound.name).slider({
 				slide: handler,
 				min: 0,
-				max: 100
+				max: 100,
+				orientation: 'horizontal'
+			});
+		}
+
+		if (!this.$('#sliderB-' + sound.name).data('uiSlider')) {
+			$('#sliderB-' + sound.name).slider({
+				slide: handler,
+				min: 0,
+				max: 100,
+				orientation: 'horizontal'
 			});
 		}
 	});

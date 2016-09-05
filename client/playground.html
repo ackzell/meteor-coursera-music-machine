@@ -1,9 +1,7 @@
 <template name="playground">
-
 <!-- Remember - if you want to control functions globaly, don't declare them as var. Just name them. -->
-
-<h2> 
-{{startdac}} 
+<h2>
+{{startdac}}
 {{arp1}}
 {{bass1}}
 {{ethnic}}
@@ -13,7 +11,6 @@
 {{drums3}}
 {{hihat}}
 </h2>
-
 <div class="container">
 	<div class="row">
 		<div class="col-xs-12 text-center">
@@ -21,21 +18,17 @@
 			<button class="stopButton btn btn-danger"><i class="fa fa-stop" aria-hidden="true"></i> Stop</button>
 		</div>
 	</div>
+	<br>
 	<div class="row">
-	{{#each sound in soundsArr}}
+		<div id="slider1"></div>
+		Current Speed = {{sliderVal1}}
+	</div>
+	<br>
+	<div class="row">
+		{{#each sound in soundsArr}}
 		{{> track index=@index label=sound.name}}
-	{{/each}}
+		{{/each}}
 	</div>
 	
 </div>
-
-<br><br>
-<br>	
-
-<br>
-  <div id="slider1"></div>
-  <br>
-  Current Speed = {{sliderVal1}}
-
-
 </template>
