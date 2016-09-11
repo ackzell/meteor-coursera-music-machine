@@ -1,4 +1,10 @@
 Template.track.helpers({
+	'isChecked': function() {
+		var mm = MusicMachine.findOne();
+		if (mm) {
+			return !!mm[this.name];
+		}
+	},
 	'sliderA': function(trackName) {
 		var mm = MusicMachine.findOne();
 
@@ -26,29 +32,7 @@ Template.track.helpers({
 
 Template.track.onRendered(function() {
 
-	var el = this.$('.js-switch')[0];
-
 	var name = this.data.name;
-
-	var sw = new Switchery(el, {
-		size: 'small',
-		color: '#53A548',
-		secondaryColor: '#19381F',
-		jackColor: '#070F07',
-		jackSecondaryColor: '#070F07'
-		
-	});
-
-
-	Meteor.setTimeout(function() {
-		var val = MusicMachine.findOne({});
-		
-		var checked = val && val[name] === 1;
-
-		if (!checked) {
-			el.click();
-		}	
-	}, 200);
 
 	var handlerA = _.throttle(function(event, ui) {
 		var val = MusicMachine.findOne({});

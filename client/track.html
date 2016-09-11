@@ -3,10 +3,20 @@
 
 
 	<div class="track">
-		<label>Track {{index}} - {{label}}
-			<input type="checkbox" id="{{name}}" name="check-{{name}}" checked class="js-switch pull-right"
-			>
-		</label>
+	
+		<div class="row">
+			<div class="col-xs-12">
+				<label>
+					<span>Track {{index}} - {{label}}</span>
+					<div class="checkbox checkbox-slider--b-flat pull-right">
+						<label>
+							<input type="checkbox" id="{{name}}" name="check-{{name}}" checked={{isChecked}}><span></span>
+						</label>
+					</div>
+				</label>
+			</div>
+		</div>
+
 		<div class="row text-center slider-container">
 			<div class="col-xs-6">
 				<div id="sliderA-{{name}}"></div>

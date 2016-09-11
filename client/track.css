@@ -1,5 +1,5 @@
 .track {
-	border: 2px solid #19381F;
+	border: 1px solid #19381F;
 	border-radius: 10px;
 	padding: 15px;
 	min-width: 260px;
@@ -13,6 +13,11 @@
 
 label {
 	width: 100%;
+}
+
+label > span:first-child {
+	display: inline-block; 
+	margin-top: 10px;
 }
 
 .switchery-small{
