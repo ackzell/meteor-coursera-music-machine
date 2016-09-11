@@ -1,57 +1,50 @@
 //playground.js
 
-acontext = new AudioContext;  
-
-//Now we can create an instance of our waveform generator and play it.
-
-waveform = new Synth(acontext);
-
 sounds = [
-	{ name: 'arp1',       label : 'Arp',        file : 'arp.wav',                         player : null, },
-	{ name: 'bass1',      label : 'Bass Line',  file : 'bassline.wav',                    player : null, },
-	{ name: 'ethnic',     label : 'Ethnic',     file : 'Alesis-Fusion-Shakuhachi-C5.wav', player : null, },
-	{ name: 'cymbal',     label : 'Cymbal',	    file : 'cymbal1.wav',                     player : null, },
-	{ name: 'drums1',     label : 'Drums',      file : 'drums1.wav',                      player : null, },
-	{ name: 'drums2',     label : 'snaredrum1', file : 'snaredrum1.wav',                  player : null, },
-	{ name: 'drums3',     label : 'Bass Drum',  file : 'bassdrum1.wav',                   player : null, },
-	{ name: 'hihat',      label : 'Hihat',      file : 'hihat2.wav',                      player : null, },
+	{ name: 'jungleBeat',  label : 'Jungle Beat',               file : 'jungle-beat.wav',         },
+	{ name: 'lrSn0029',    label : 'Synth',                     file : 'LR_SN_0029.wav',              },
+	{ name: 'medieval',    label : 'Medieval',                  file : 'medieval-introduction.wav',   },
+	{ name: 'harp',        label : 'Harp',	                    file : 'harp.wav',                    },
+	{ name: 'bounceSeq5',  label : 'Bounce',                    file : 'bounce-seq-5.wav',            },
+	{ name: 'string1Loop', label : 'String Loop',               file : 'string-1-loop.wav',           },
+	{ name: 'arp',         label : 'Arpeggiated Chord',         file : 'arpeggiated-cmaj-chord.wav',  },
+	{ name: 'excessive',   label : 'Excessive Exposure Vocals', file : 'excessiveexposure.wav',       },
 ];
 
 numberOfSounds = sounds.length;
 
-maxims = Array(numberOfSounds);
-
-maxims.fill(new Maxim());
-
-maxims.forEach(function(maxim, i) {
-	sounds[i].player = maxim.loadFile(sounds[i].file);
-	sounds[i].player.loop
+howlers = [];
+sounds.forEach(function(sound) {
+	howlers.push(new Howl({
+		src: sound.file,
+		loop: true
+	}));
 });
 
 playSound = function(index) {
-	sounds[index].player.volume(1);
+	howlers[index].volume(1);
 }
 
 stopSound = function(index){
-	sounds[index].player.volume(0);
+	howlers[index].volume(0);
 }
 
 playAll = function() {
-	sounds.forEach(function(sound) {
-		sound.player.play();
+	sounds.forEach(function(sound, i) {
+		sound.id = howlers[i].play();
 	});
 }
 
 stopAll = function() {
-	sounds.forEach(function(sound) {
-		sound.player.stop();
+	sounds.forEach(function(sound, i) {
+		howlers[i].stop(sound.id);
 	});
 }
 
 setSpeed = function(speed) {
 
-	sounds.forEach(function(sound) {
-		sound.player.speed(speed);
+	sounds.forEach(function(sound, i) {
+		howlers[i].rate(speed, sounds.id);
 	});
 	
 }

@@ -1,12 +1,7 @@
-var helpersObj = {
-	isChecked: function() {
-		var mm = MusicMachine.findOne();
-
-		return mm && mm[this.label] === 1;
-	}
-};
+helpersObj = {};
 
 sounds.forEach(function(sound, i) {
+
 	helpersObj['sliderA-' + sound.name] = function() {
 		var mm = MusicMachine.findOne();
 
@@ -40,7 +35,9 @@ Template.track.onRendered(function() {
 
 	var el = this.$('.js-switch')[0];
 
-	var sw = new Switchery(el, { 
+	var name = this.data.name;
+
+	var sw = new Switchery(el, {
 		size: 'small',
 		color: '#53A548',
 		secondaryColor: '#19381F',
@@ -48,6 +45,18 @@ Template.track.onRendered(function() {
 		jackSecondaryColor: '#070F07'
 		
 	});
+
+
+	Meteor.setTimeout(function() {
+		var val = MusicMachine.findOne({});
+		
+		var checked = val && val[name] === 1;
+
+		if (!checked) {
+			el.click();
+		}	
+	}, 200);
+
 
 	sounds.forEach(function(sound) {
 		
@@ -60,6 +69,7 @@ Template.track.onRendered(function() {
 				}, {
 					$set: setObj
 				});
+
 		}, 50, {
 			leading: false
 		});
