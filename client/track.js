@@ -1,35 +1,28 @@
-helpersObj = {};
-
-sounds.forEach(function(sound, i) {
-
-	helpersObj['sliderA-' + sound.name] = function() {
+Template.track.helpers({
+	'sliderA': function(trackName) {
 		var mm = MusicMachine.findOne();
 
 		if (mm) {
 			if (Template.instance().view.isRendered) {
-				Template.instance().$('#sliderA-' + sound.name).value(mm['slideA' + sound.name]);
-				sound.player.setAmplitude(mm['slideA' + sound.name]);
-				return mm['slideA' + sound.name];
+				Template.instance().$('#sliderA-' + trackName).data('uiSlider').value(mm['slideA' + trackName]);
+				
+				return mm['slideA' + trackName];
 			}
 		}
-
-	};
-
-	helpersObj['sliderB-' + sound.name] = function() {
+	},
+	'sliderB': function(trackName) {
 		var mm = MusicMachine.findOne();
 
 		if (mm) {
 			if (Template.instance().view.isRendered) {
-				Template.instance().$('#sliderB-' + sound.name).value(mm['slideB' + sound.name]);
-				sound.player.setAmplitude(mm['slideB' + sound.name]);
-				return mm['slideB' + sound.name];
+				Template.instance().$('#sliderB-' + trackName).data('uiSlider').value(mm['slideB' + trackName]);
+				
+				return mm['slideB' + trackName];
 			}
 		}
 
-	};
+	}
 });
-
-Template.track.helpers(helpersObj);
 
 Template.track.onRendered(function() {
 
@@ -57,40 +50,51 @@ Template.track.onRendered(function() {
 		}	
 	}, 200);
 
-
-	sounds.forEach(function(sound) {
-		
-		var handler = _.throttle(function(event, ui) {
-			var val = MusicMachine.findOne({});
-			var setObj = {};
-			setObj['slideA' + sound.name] = ui.value;
-			MusicMachine.update({
-					_id: val._id
-				}, {
-					$set: setObj
-				});
-
-		}, 50, {
-			leading: false
-		});
-
-		if (!this.$('#sliderA-' + sound.name).data('uiSlider')) {
-			$('#sliderA-' + sound.name).slider({
-				slide: handler,
-				min: 0,
-				max: 100,
-				orientation: 'horizontal'
+	var handlerA = _.throttle(function(event, ui) {
+		var val = MusicMachine.findOne({});
+		var setObj = {};
+		setObj['slideA' + name] = ui.value;
+		MusicMachine.update({
+				_id: val._id
+			}, {
+				$set: setObj
 			});
-		}
 
-		if (!this.$('#sliderB-' + sound.name).data('uiSlider')) {
-			$('#sliderB-' + sound.name).slider({
-				slide: handler,
-				min: 0,
-				max: 100,
-				orientation: 'horizontal'
-			});
-		}
+	}, 50, {
+		leading: false
 	});
+
+	var handlerB = _.throttle(function(event, ui) {
+		var val = MusicMachine.findOne({});
+		var setObj = {};
+		setObj['slideB' + name] = ui.value;
+		MusicMachine.update({
+				_id: val._id
+			}, {
+				$set: setObj
+			});
+
+	}, 50, {
+		leading: false
+	});
+
+	if (!this.$('#sliderA-' + name).data('uiSlider')) {
+		$('#sliderA-' + name).slider({
+			slide: handlerA,
+			min: 0,
+			max: 100,
+			orientation: 'horizontal'
+		});
+	}
+
+	if (!this.$('#sliderB-' + name).data('uiSlider')) {
+		$('#sliderB-' + name).slider({
+			slide: handlerB,
+			min: 0,
+			max: 100,
+			orientation: 'horizontal'
+		});
+	}
+	
 
 });

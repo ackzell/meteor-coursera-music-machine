@@ -1,5 +1,7 @@
 <template name="track">
 <div class="col-xs-12 col-md-6">
+
+
 	<div class="track">
 		<label>Track {{index}} - {{label}}
 			<input type="checkbox" id="{{name}}" name="check-{{name}}" checked class="js-switch pull-right"
@@ -8,9 +10,11 @@
 		<div class="row text-center slider-container">
 			<div class="col-xs-6">
 				<div id="sliderA-{{name}}"></div>
+				{{sliderA name}}
 			</div>
 			<div class="col-xs-6">
 				<div id="sliderB-{{name}}"></div>
+				{{sliderB name}}
 			</div>
 		</div>
 	</div>

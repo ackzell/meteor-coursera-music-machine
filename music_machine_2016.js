@@ -1,6 +1,5 @@
 //This code is for everyone. Could go in common.js
-MusicMachine = new Mongo.Collection("musicMachine");
-
+MusicMachine = new Mongo.Collection('musicMachine');
 
 if (Meteor.isClient) {
 
@@ -35,7 +34,7 @@ if (Meteor.isClient) {
     },
   };
 
-  sounds.forEach(function(sound, i) {
+  sounds.forEach(function(sound) {
 
     var isPlaying = null;
 
@@ -48,14 +47,13 @@ if (Meteor.isClient) {
         isPlaying = starter[sound.name] === 1;
 
         if (isPlaying) {
-          playSound(i);
+          playSound(sound.name);
         } else {
-          stopSound(i);
+          stopSound(sound.name);
         }
       }
     };
 
-    helpersObj[sound.name + '_checked'] = isPlaying;
   });
 
   helpersObj.soundsArr = sounds;
@@ -68,8 +66,6 @@ if (Meteor.isClient) {
     eventsObj['change ' + '#' + sound.name + ':checkbox'] = function(event, instance) {
 
       var toggled = event.target.checked ? 1 : 0;
-      Session.set(sound.name, toggled);
-
       var val = MusicMachine.findOne();
 
       var setVal = {};
@@ -136,26 +132,23 @@ if (Meteor.isClient) {
       });
     }
 
-    var checks = _.debounce(function() {
-      $(":checkbox").each(function() {
-        var val = MusicMachine.findOne();
-        if (val[this.id] === 1) {
-          $(this).prop("checked", true);
-        }
-      });
-    }, 500);
-
-    checks();
-
   });
 }
 
 if (Meteor.isServer) {
-  //  MusicMachine.remove({});
+  //MusicMachine.remove({});
   if (MusicMachine.find().count() === 0) {
-    MusicMachine.insert({
+
+    var insertObject = {
       slide: 50
+    };
+
+    sounds.forEach(function(sound) {
+      insertObject['slideA' + sound.name] = 50;
+      insertObject['slideB' + sound.name] = 50;
     });
+
+    MusicMachine.insert(insertObject);
   }
 
 }
