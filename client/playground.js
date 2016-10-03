@@ -41,4 +41,16 @@ setSpeed = function(speed) {
 	
 }
 
+// howler allows chaning the speed (rate) 
+// between 0.5 and 4.0, and
+// the slider goes from 0 to 100, thus:
+// (4 - 0.5) / 100 = 0.035
+soundSpeed = function(speed, sound) {
+  howls[sound].rate(speed * 0.035); 
 
+  //console.log(`setting speed for ${sound} at ${speed}`);
+};
+
+soundVolume = function(vol, sound) {
+  howls[sound].volume(vol);
+};

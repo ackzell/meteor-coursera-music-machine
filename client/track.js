@@ -11,8 +11,8 @@ Template.track.helpers({
 		if (mm) {
 			if (Template.instance().view.isRendered) {
 				Template.instance().$('#sliderA-' + trackName).data('uiSlider').value(mm['slideA' + trackName]);
-				
-				return mm['slideA' + trackName];
+				soundSpeed(mm['slideA' + trackName], trackName);
+				return Number(mm['slideA' + trackName] * 0.035).toFixed(2);
 			}
 		}
 	},
@@ -22,8 +22,10 @@ Template.track.helpers({
 		if (mm) {
 			if (Template.instance().view.isRendered) {
 				Template.instance().$('#sliderB-' + trackName).data('uiSlider').value(mm['slideB' + trackName]);
-				
-				return mm['slideB' + trackName];
+				if (!!mm[this.name]) {
+					soundVolume(mm['slideB' + trackName] / 100, trackName);
+				}
+				return mm['slideB' + trackName] / 100;
 			}
 		}
 
